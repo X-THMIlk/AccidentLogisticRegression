@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h3 class="fw-bold mb-4 text-danger animate__animated animate__fadeInLeft">
+    <i class="bi bi-graph-up-arrow"></i>
+    ĐÁNH GIÁ HIỆU NĂNG MÔ HÌNH (MODEL EVALUATION)
+</h3>
+
+<div class="row mb-4 animate__animated animate__fadeInUp">
+    <div class="col-md-3 mb-3">
+        <div class="card p-3 text-center shadow-sm h-100 border-start border-5 border-primary">
+            <h3 class="fw-bold text-primary">{{ "%.2f"|format(metrics.get('Accuracy', 0) * 100) }}%</h3>
+            <div class="fw-bold text-uppercase small text-muted">Accuracy</div>
+            <small class="text-secondary mt-2 fst-italic" style="font-size: 0.8rem;">Độ chính xác tổng thể</small>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card p-3 text-center shadow-sm h-100 border-start border-5 border-success">
+            <h3 class="fw-bold text-success">{{ "%.2f"|format(metrics.get('Precision', 0) * 100) }}%</h3>
+            <div class="fw-bold text-uppercase small text-muted">Precision</div>
+            <small class="text-secondary mt-2 fst-italic" style="font-size: 0.8rem;">Độ chuẩn xác</small>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card p-3 text-center shadow-sm h-100 border-start border-5 border-warning">
+            <h3 class="fw-bold text-warning">{{ "%.2f"|format(metrics.get('Recall', 0) * 100) }}%</h3>
+            <div class="fw-bold text-uppercase small text-muted">Recall</div>
+            <small class="text-secondary mt-2 fst-italic" style="font-size: 0.8rem;">Độ phủ</small>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div class="card p-3 text-center shadow-sm h-100 border-start border-5 border-danger">
+            <h3 class="fw-bold text-danger">{{ "%.2f"|format(metrics.get('F1-Score', 0) * 100) }}%</h3>
+            <div class="fw-bold text-uppercase small text-muted">F1-Score</div>
+            <small class="text-secondary mt-2 fst-italic" style="font-size: 0.8rem;">Cân bằng Precision/Recall</small>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">
+                <i class="bi bi-bezier2"></i> ROC Curve
+            </div>
+            <div class="card-body text-center d-flex align-items-center justify-content-center">
+                <img src="/images/roc_curve.png" class="img-fluid rounded" style="max-height: 350px;" alt="ROC Curve chưa được tạo">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-white fw-bold">
+                <i class="bi bi-grid-3x3"></i> Confusion Matrix
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center align-middle" style="height: 100%;">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="bg-light"></th>
+                                <th>Dự báo: 0 (Nhẹ)</th>
+                                <th>Dự báo: 1 (Nặng)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="table-light">Thực tế: 0</th>
+                                <td class="bg-success bg-opacity-10 fw-bold text-success fs-5">
+                                    {{ cm[0][0] | int }}
+                                </td>
+                                <td class="bg-danger bg-opacity-10 fw-bold text-danger fs-5">
+                                    {{ cm[0][1] | int }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-light">Thực tế: 1</th>
+                                <td class="bg-danger bg-opacity-10 fw-bold text-danger fs-5">
+                                    {{ cm[1][0] | int }}
+                                </td>
+                                <td class="bg-success bg-opacity-10 fw-bold text-success fs-5">
+                                    {{ cm[1][1] | int }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-3 text-center">
+                    <a href="/results/us_accidents_confusion_matrix.csv" class="btn btn-sm btn-outline-secondary">
+                        <i class="bi bi-download"></i> Tải dữ liệu CSV
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-white fw-bold text-primary">
+                <i class="bi bi-bar-chart-fill"></i> Mức độ quan trọng của các đặc trưng
+            </div>
+            <div class="card-body text-center">
+                 <img src="/images/feature_importance.png" class="img-fluid rounded border" alt="Feature Importance chưa được tạo">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

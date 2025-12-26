@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="card p-5 mb-5 text-center animate__animated animate__fadeIn">
+    <h1 class="fw-bold mb-3">
+        HỆ THỐNG PHÂN TÍCH & DỰ BÁO TAI NẠN GIAO THÔNG TẠI MỸ
+    </h1>
+    <p class="text-muted fs-5">
+        Ứng dụng <b>Logistic Regression</b> trên nền tảng
+        <b>Apache Spark MLlib</b> để phân tích và dự báo mức độ nghiêm trọng của tai nạn giao thông
+    </p>
+
+    <div class="mt-4">
+        <a href="#upload" class="btn btn-primary btn-lg me-3">
+            <i class="bi bi-upload"></i> Bắt đầu với dữ liệu
+        </a>
+        <a href="/evaluation" class="btn btn-outline-secondary btn-lg">
+            <i class="bi bi-graph-up"></i> Xem kết quả phân tích
+        </a>
+    </div>
+</div>
+
+<!-- Các tính năng -->
+<div class="row mb-5">
+    <div class="col-md-3">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-database fs-1 text-primary"></i>
+            <h5 class="mt-3 fw-semibold">Xử lý dữ liệu lớn</h5>
+            <p class="text-muted">
+                Phân tích dữ liệu tai nạn giao thông quy mô lớn tại Mỹ bằng Apache Spark
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-cpu fs-1 text-success"></i>
+            <h5 class="mt-3 fw-semibold">Học máy</h5>
+            <p class="text-muted">
+                Huấn luyện Logistic Regression để dự đoán mức độ tai nạn
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-graph-up-arrow fs-1 text-warning"></i>
+            <h5 class="mt-3 fw-semibold">Đánh giá mô hình</h5>
+            <p class="text-muted">
+                ROC, Confusion Matrix, Precision, Recall, F1-score
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-4 text-center h-100">
+            <i class="bi bi-lightning-charge fs-1 text-danger"></i>
+            <h5 class="mt-3 fw-semibold">Dự báo tai nạn</h5>
+            <p class="text-muted">
+                Dự đoán khả năng xảy ra tai nạn nghiêm trọng dựa trên điều kiện thời tiết & thời gian
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Quy trình thực hiện -->
+<div class="card p-4 mb-5">
+    <h3 class="fw-bold mb-4">🔁 Quy trình hệ thống</h3>
+
+    <div class="row text-center">
+        <div class="col-md-2">
+            <span class="badge bg-primary fs-6">1</span>
+            <p class="mt-2">Upload dữ liệu</p>
+        </div>
+        <div class="col-md-2">
+            <span class="badge bg-secondary fs-6">2</span>
+            <p class="mt-2">Tiền xử lý dữ liệu</p>
+        </div>
+        <div class="col-md-2">
+            <span class="badge bg-info fs-6">3</span>
+            <p class="mt-2">Phân tích mô tả</p>
+        </div>
+        <div class="col-md-2">
+            <span class="badge bg-warning fs-6">4</span>
+            <p class="mt-2">Huấn luyện mô hình</p>
+        </div>
+        <div class="col-md-2">
+            <span class="badge bg-success fs-6">5</span>
+            <p class="mt-2">Đánh giá mô hình</p>
+        </div>
+        <div class="col-md-2">
+            <span class="badge bg-danger fs-6">6</span>
+            <p class="mt-2">Dự báo tai nạn</p>
+        </div>
+    </div>
+</div>
+
+<!-- Upload file và huấn luyện -->
+<div class="card p-5" id="upload">
+    <h3 class="fw-bold mb-3">📂 Upload dữ liệu tai nạn giao thông</h3>
+    <p class="text-muted">
+        Tải lên file dữ liệu giao dịch (CSV) để bắt đầu quá trình phân tích
+        và huấn luyện mô hình.
+    </p>
+
+    {% if msg %}
+    <div class="alert alert-success animate__animated animate__fadeInUp">
+        {{ msg }}
+    </div>
+    {% endif %}
+
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <input type="file" class="form-control form-control-lg" name="file" required>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary btn-lg w-100">
+                    <i class="bi bi-cloud-arrow-up"></i> Upload & Huấn luyện
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+<script>
+    document.querySelector("form").addEventListener("submit", function () {
+        const btn = document.querySelector("button");
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Đang huấn luyện mô hình...';
+        btn.disabled = true;
+    });
+</script>

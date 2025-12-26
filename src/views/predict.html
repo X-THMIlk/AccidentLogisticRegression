@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h3 class="fw-bold mb-1 text-danger">
+    <i class="bi bi-exclamation-triangle"></i>
+    DỰ BÁO MỨC ĐỘ NGHIÊM TRỌNG TAI NẠN
+</h3>
+<p class="text-muted fst-italic mb-4">(US Traffic Accident Severity Prediction)</p>
+
+<div class="card shadow-sm p-4 border-0">
+    {% if error %}
+        <div class="alert alert-warning">
+            <i class="bi bi-exclamation-circle"></i> {{ error }}
+        </div>
+    {% endif %}
+
+    {% if prediction_text %}
+        <div class="alert {{ 'alert-danger' if prediction_label == 1 else 'alert-success' }} mt-2 animate__animated animate__fadeIn">
+            <h4><i class="bi bi-broadcast"></i> KẾT QUẢ DỰ BÁO:</h4>
+            <p class="fs-5 mb-1">{{ prediction_text }}</p>
+            {% if prob %}
+                <small>Độ tin cậy của mô hình: <b>{{ "%.2f"|format(prob*100) }}%</b></small>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="{{ url_for('predict') }}" class="mt-4">
+
+        <h5 class="text-primary border-bottom pb-2 mb-3"><i class="bi bi-clock"></i> Thời gian</h5>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Tháng (1-12)</label>
+                <input type="number" name="Month" class="form-control" min="1" max="12" required
+                       placeholder="VD: 12">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Giờ (0-23)</label>
+                <input type="number" name="Hour" class="form-control" min="0" max="23" required
+                       placeholder="VD: 18">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Thứ trong tuần</label>
+                <select name="Weekday" class="form-select" required>
+                    <option value="2">Thứ Hai</option>
+                    <option value="3">Thứ Ba</option>
+                    <option value="4">Thứ Tư</option>
+                    <option value="5">Thứ Năm</option>
+                    <option value="6">Thứ Sáu</option>
+                    <option value="7">Thứ Bảy</option>
+                    <option value="1">Chủ Nhật</option>
+                </select>
+            </div>
+        </div>
+
+        <h5 class="text-primary border-bottom pb-2 mb-3 mt-2"><i class="bi bi-geo-alt"></i> Vị trí & Địa lý</h5>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Vĩ độ (Latitude)</label>
+                <input type="number" step="any" name="Start_Lat" class="form-control" required placeholder="VD: 34.05">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Kinh độ (Longitude)</label>
+                <input type="number" step="any" name="Start_Lng" class="form-control" required placeholder="VD: -118.24">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Chiều dài đoạn tai nạn (dặm)</label>
+                <input type="number" step="any" name="Distance(mi)" class="form-control" required placeholder="VD: 0.5">
+            </div>
+        </div>
+
+        <h5 class="text-primary border-bottom pb-2 mb-3 mt-2"><i class="bi bi-cloud-sun"></i> Điều kiện thời tiết</h5>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Nhiệt độ (°F)</label>
+                <input type="number" step="any" name="Temperature(F)" class="form-control" required placeholder="VD: 70">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Độ ẩm (%)</label>
+                <input type="number" step="any" name="Humidity(%)" class="form-control" required placeholder="VD: 60">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Áp suất (in)</label>
+                <input type="number" step="any" name="Pressure(in)" class="form-control" required placeholder="VD: 29.9">
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">Tầm nhìn (dặm)</label>
+                <input type="number" step="any" name="Visibility(mi)" class="form-control" required placeholder="VD: 10">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Tốc độ gió (mph)</label>
+                <input type="number" step="any" name="Wind_Speed(mph)" class="form-control" required placeholder="VD: 5.5">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Thời điểm</label>
+                <select name="Sunrise_Sunset" class="form-select" required>
+                    <option value="Day">Ban ngày (Day)</option>
+                    <option value="Night">Ban đêm (Night)</option>
+                </select>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label class="form-label fw-bold">Tình trạng thời tiết</label>
+                <select name="Weather_Condition" class="form-select" required>
+                    <option value="Clear">Quang đãng (Clear)</option>
+                    <option value="Cloudy">Có mây (Cloudy)</option>
+                    <option value="Rain">Mưa (Rain)</option>
+                    <option value="Snow">Tuyết (Snow)</option>
+                    <option value="Fog">Sương mù (Fog)</option>
+                    <option value="Thunderstorm">Bão (Thunderstorm)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="text-end mt-3">
+            <button type="submit" class="btn btn-danger btn-lg px-5 shadow">
+                <i class="bi bi-lightning-charge-fill"></i> DỰ BÁO NGAY
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

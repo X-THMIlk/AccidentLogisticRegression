@@ -1,0 +1,17 @@
+Metric,Value
+Accuracy,0.8063
+AUC-ROC,0.587212
+Precision (Severe Accident),0.257143
+Recall / Sensitivity (Severe Accident Detection),3.4e-05
+Specificity (Non-Severe Detection),0.999976
+F1-Score,6.9e-05
+False Negative Rate (Missed Severe Accidents),0.999966
+False Positive Rate,2.4e-05
+MCC,
+Youdens J Statistic,1.1e-05
+Brier Score,0.153958
+Log Loss,0.484762
+TP (Severe Accidents Detected),9.0
+TN (Minor Accidents Detected),1089201.0
+FP,26.0
+FN (Missed Severe Accidents),261639.0

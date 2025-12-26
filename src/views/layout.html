@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự Báo Tai Nạn Giao Thông Mỹ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .sidebar { min-height: 100vh; background: #2c3e50; color: white; }
+        .nav-link { color: rgba(255,255,255,0.85); margin-bottom: 5px; border-radius: 5px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { background: #e74c3c; color: white; transform: translateX(5px); }
+        .nav-link i { margin-right: 10px; width: 20px; text-align: center; }
+        .content-area { padding: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 sidebar p-3">
+            <h5 class="text-center fw-bold mb-4 border-bottom pb-3">
+                <i class="bi bi-shield-check text-danger"></i> SAFETY AI
+            </h5>
+
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="/" class="nav-link {{ 'active' if request.path == '/' }}">
+                        <i class="bi bi-cloud-upload"></i> Upload Dữ Liệu
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/training" class="nav-link {{ 'active' if request.path == '/training' }}">
+                        <i class="bi bi-cpu"></i> Huấn Luyện
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/descriptive" class="nav-link {{ 'active' if request.path == '/descriptive' }}">
+                        <i class="bi bi-bar-chart-line"></i> Thống Kê Mô Tả
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/evaluation" class="nav-link {{ 'active' if request.path == '/evaluation' }}">
+                        <i class="bi bi-clipboard-data"></i> Đánh Giá Model
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/explain" class="nav-link {{ 'active' if request.path == '/explain' }}">
+                        <i class="bi bi-lightbulb"></i> Giải Thích (Explain)
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/predict" class="nav-link {{ 'active' if request.path == '/predict' }}">
+                        <i class="bi bi-magic"></i> Dự Báo (Predict)
+                    </a>
+                </li>
+            </ul>
+
+            <div class="mt-auto pt-5 text-center small text-white-50">
+                &copy; 2025 BigData Project
+            </div>
+        </div>
+
+        <div class="col-md-9 col-lg-10 content-area">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="card p-5 text-center">
+    <div class="spinner-border text-primary mb-3" style="width:4rem;height:4rem"></div>
+    <h4 class="fw-bold">Đang huấn luyện mô hình</h4>
+    <p class="text-muted">Apache Spark MLlib đang xử lý dữ liệu…</p>
+</div>
+
+<script>
+setInterval(async () => {
+    const r = await fetch("/results/model_evaluation.csv", { method: "HEAD" });
+    if (r.ok) window.location.href = "/evaluation";
+}, 5000);
+</script>
+{% endblock %}

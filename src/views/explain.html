@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h3 class="fw-bold text-primary">
+    <i class="bi bi-lightbulb-fill"></i>
+    GIẢI THÍCH MÔ HÌNH DỰ ĐOÁN TAI NẠN GIAO THÔNG TẠI MỸ
+</h3>
+<p class="text-muted fst-italic mt-0 mb-4">
+    (Model Interpretability – US Accidents Dataset)
+</p>
+
+<div class="row g-4">
+    <!-- Bảng hệ số -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-semibold text-secondary mb-0">
+                    <i class="bi bi-list-columns me-2 text-primary"></i>
+                    Hệ số đặc trưng ảnh hưởng đến mức độ tai nạn
+                </h5>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-sm table-striped table-bordered align-middle">
+                    <thead class="table-primary text-center">
+                        <tr>
+                            <th>Đặc trưng</th>
+                            <th>Hệ số (Coefficient)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for f, c in explain %}
+                        <tr>
+                            <td class="fw-semibold">{{ f }}</td>
+                            <td class="text-end">{{ "%.4f"|format(c) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-3 small text-muted">
+                <i class="bi bi-info-circle"></i>
+                Hệ số dương (+) cho thấy yếu tố đó làm tăng nguy cơ xảy ra
+                <b>tai nạn nghiêm trọng (Severity ≥ 3)</b>,
+                trong khi hệ số âm (−) giúp giảm nguy cơ này.
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ Feature Importance -->
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 p-4 h-100">
+            <h5 class="fw-semibold text-secondary mb-2">
+                <i class="bi bi-bar-chart-line-fill me-2 text-success"></i>
+                Tầm quan trọng của các yếu tố ảnh hưởng
+            </h5>
+
+            <p class="text-muted small mb-2">
+                Biểu đồ minh họa mức độ ảnh hưởng của các yếu tố
+                <b>thời tiết, thời gian và hạ tầng giao thông</b>
+                đến khả năng xảy ra tai nạn giao thông nghiêm trọng tại Hoa Kỳ,
+                dựa trên mô hình Logistic Regression.
+            </p>
+
+            <img src="/images/{{ feature_img }}"
+                 class="img-fluid mt-2 shadow-sm rounded mx-auto d-block">
+
+            <p class="mt-3 small text-muted">
+                <i class="bi bi-info-circle"></i>
+                Các đặc trưng có giá trị tuyệt đối của hệ số càng lớn
+                thì mức độ ảnh hưởng đến kết quả dự đoán càng cao.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
